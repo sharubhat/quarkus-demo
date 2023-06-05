@@ -1,28 +1,34 @@
 package com.sh.experiment
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
-import org.hibernate.annotations.GenericGenerator
+import io.quarkus.hibernate.reactive.panache.kotlin.PanacheCompanion
+import io.quarkus.hibernate.reactive.panache.kotlin.PanacheEntityBase
+import jakarta.enterprise.context.ApplicationScoped
 import java.time.LocalDate
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PastOrPresent
 
+
 @Entity
 @Table(name = "\"User\"")
-class User: PanacheEntity() {
-
+class User: PanacheEntityBase {
     companion object: PanacheCompanion<User> {
         fun findByEmail(email: String) = find("email", email).firstResult()
         fun findByStatus(status: Status) = find("status", status).list()
     }
+
+    @Id
+    @SequenceGenerator(name = "userSequence", sequenceName = "User_SEQ", allocationSize = 1, initialValue = 4)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_SEQ")
+    var id: Int? = null
 
     @Column
     @NotNull
