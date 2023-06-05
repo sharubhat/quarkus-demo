@@ -1,9 +1,7 @@
 package com.sh.experiment
 
-import io.quarkus.hibernate.reactive.panache.common.WithSession
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import jakarta.enterprise.context.ApplicationScoped
 import jakarta.validation.Valid
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
@@ -46,19 +44,28 @@ class UserResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun findById(@PathParam("id") id: String): Response =
-            Response.ok(User.findById(id.toLong())).build()
+    suspend fun findById(@PathParam("id") id: Int): Response =
+            Response.ok(findUserById(id).awaitSuspending()).build()
+
+    @WithTransaction
+    fun findUserById(id: Int) = User.findById(id.toLong())
 
     @GET
     @Path("/by-email/")
     @Produces(MediaType.APPLICATION_JSON)
-    fun findByEmail(@QueryParam("email") email: String): Response =
-            Response.ok(User.findByEmail(email)).build()
+    suspend fun findByEmail(@QueryParam("email") email: String): Response =
+            Response.ok(findUserByEmail(email).awaitSuspending()).build()
 
     @GET
     @Path("/by-status/")
     @Produces(MediaType.APPLICATION_JSON)
-    fun findByStatus(@QueryParam("status") status: String): Response =
-            Response.ok(User.findByStatus(Status.valueOf(status))).build()
+    suspend fun findByStatus(@QueryParam("status") status: String): Response =
+            Response.ok(findUserByStatus(Status.valueOf(status)).awaitSuspending()).build()
+
+    @WithTransaction
+    fun findUserByEmail(email: String) = User.findByEmail(email)
+
+    @WithTransaction
+    fun findUserByStatus(status: Status) = User.findByStatus(status)
 
 }
