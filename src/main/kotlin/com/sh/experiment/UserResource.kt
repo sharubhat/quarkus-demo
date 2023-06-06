@@ -2,6 +2,7 @@ package com.sh.experiment
 
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
 import io.smallrye.mutiny.coroutines.awaitSuspending
+import jakarta.inject.Inject
 import jakarta.validation.Valid
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
@@ -18,6 +19,9 @@ import java.net.URI
 @Path("/user")
 class UserResource {
 
+    @Inject
+    lateinit var userRepository: UserRepository
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -28,7 +32,7 @@ class UserResource {
             }
 
     @WithTransaction
-    fun saveUser(user: User) = user.persist<User>()
+    fun saveUser(user: User) = userRepository.persist(user)
 
     @DELETE
     @Path("/{id}")
@@ -39,7 +43,7 @@ class UserResource {
         }
 
     @WithTransaction
-    fun deleteUser(id: Int) = User.deleteById(id)
+    fun deleteUser(id: Int) = userRepository.deleteById(id)
 
     @GET
     @Path("/{id}")
@@ -48,7 +52,7 @@ class UserResource {
             Response.ok(findUserById(id).awaitSuspending()).build()
 
     @WithTransaction
-    fun findUserById(id: Int) = User.findById(id.toLong())
+    fun findUserById(id: Int) = userRepository.findById(id)
 
     @GET
     @Path("/by-email/")
@@ -63,9 +67,9 @@ class UserResource {
             Response.ok(findUserByStatus(Status.valueOf(status)).awaitSuspending()).build()
 
     @WithTransaction
-    fun findUserByEmail(email: String) = User.findByEmail(email)
+    fun findUserByEmail(email: String) = userRepository.findByEmail(email)
 
     @WithTransaction
-    fun findUserByStatus(status: Status) = User.findByStatus(status)
+    fun findUserByStatus(status: Status) = userRepository.findByStatus(status)
 
 }

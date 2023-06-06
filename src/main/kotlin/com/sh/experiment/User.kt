@@ -19,12 +19,7 @@ import jakarta.validation.constraints.PastOrPresent
 
 @Entity
 @Table(name = "\"User\"")
-class User: PanacheEntityBase {
-    companion object: PanacheCompanion<User> {
-        fun findByEmail(email: String) = find("email", email).firstResult()
-        fun findByStatus(status: Status) = find("status", status).list()
-    }
-
+class User {
     @Id
     @SequenceGenerator(name = "userSequence", sequenceName = "User_SEQ", allocationSize = 1, initialValue = 4)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_SEQ")
