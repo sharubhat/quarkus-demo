@@ -11,4 +11,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "user-service"
+rootProject.name = "quarkus-demo"
