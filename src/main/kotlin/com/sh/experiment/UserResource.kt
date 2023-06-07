@@ -1,6 +1,7 @@
 package com.sh.experiment
 
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
+import io.smallrye.mutiny.Uni
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.inject.Inject
 import jakarta.validation.Valid
@@ -14,10 +15,13 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import org.jboss.logging.Logger
 import java.net.URI
 
 @Path("/user")
 class UserResource {
+
+    private val log: Logger = Logger.getLogger(UserResource::class.java)
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -25,14 +29,19 @@ class UserResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    suspend fun save(@Valid user: User): Response =
-            user.let {
-                saveUser(user).awaitSuspending()
-                Response.created(URI("/user/${user.id}")).entity(user).build()
-            }
+    suspend fun save(@Valid user: User): Response {
+        log.info("In ${Thread.currentThread().name}")
+        return user.let {
+            saveUser(user).awaitSuspending()
+            Response.created(URI("/user/${user.id}")).entity(user).build()
+        }
+    }
 
     @WithTransaction
-    fun saveUser(user: User) = userRepository.persist(user)
+    fun saveUser(user: User): Uni<User> {
+        log.info("In ${Thread.currentThread().name}")
+        return userRepository.persist(user)
+    }
 
     @DELETE
     @Path("/{id}")
