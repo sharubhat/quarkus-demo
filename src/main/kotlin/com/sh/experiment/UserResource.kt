@@ -13,9 +13,12 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import org.jboss.logging.Logger
 
 @Path("/user")
 class UserResource {
+
+    private val log: Logger = Logger.getLogger(UserResource::class.java)
 
     @POST
     @Transactional
@@ -24,6 +27,7 @@ class UserResource {
     fun save(@Valid user: User): Response =
             user.let {
                 it.persist()
+                log.info("In ${Thread.currentThread().name}")
                 Response.created(URI("/user/${user.id}")).entity(user).build()
             }
 
