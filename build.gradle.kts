@@ -35,6 +35,11 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-reactive-panache-kotlin")
     implementation("io.quarkus:quarkus-hibernate-validator")
 
+    implementation(platform("io.arrow-kt:arrow-stack:1.2.0-RC"))
+    // no versions on libraries
+    implementation("io.arrow-kt:arrow-core")
+    implementation("io.arrow-kt:arrow-fx-coroutines")
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:kotlin-extensions")
     testImplementation("io.rest-assured:rest-assured")

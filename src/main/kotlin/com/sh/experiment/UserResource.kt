@@ -32,7 +32,11 @@ class UserResource {
     suspend fun save(@Valid user: User): Response {
         log.info("In ${Thread.currentThread().name}")
         return user.let {
-            saveUser(user).awaitSuspending()
+            try {
+                saveUser(user).awaitSuspending()
+            } catch (e: Exception) {
+                log.error("Failed.", e)
+            }
             Response.created(URI("/user/${user.id}")).entity(user).build()
         }
     }
