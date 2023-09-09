@@ -26,24 +26,29 @@ class UserResource {
     @Inject
     lateinit var userRepository: UserRepository
 
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    fun hello() = "hello"
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(@Valid user: User): Response {
-        log.info("In ${Thread.currentThread().name}")
-        return user.let {
+        log.info("save: In thread ${Thread.currentThread().name}")
+        user.let {
             try {
                 saveUser(user).awaitSuspending()
+                return Response.created(URI("/user/${user.id}")).entity(user).build()
             } catch (e: Exception) {
                 log.error("Failed.", e)
+                return Response.status(Response.Status.CONFLICT).build()
             }
-            Response.created(URI("/user/${user.id}")).entity(user).build()
         }
     }
 
     @WithTransaction
     fun saveUser(user: User): Uni<User> {
-        log.info("In ${Thread.currentThread().name}")
+        log.info("saveUser: In thread ${Thread.currentThread().name}")
         return userRepository.persist(user)
     }
 
@@ -52,7 +57,7 @@ class UserResource {
     suspend fun delete(@PathParam("id") id: Int): Response? =
         when(deleteUser(id).awaitSuspending()) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
-            false -> Response.ok().status(Response.Status.NOT_FOUND).build()
+            false -> Response.status(Response.Status.NOT_FOUND).build()
         }
 
     @WithTransaction
@@ -62,6 +67,7 @@ class UserResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: Int): Response =
+        // TODO: Handle the case where entity is not found, currently responds empty with 200 OK
             Response.ok(findUserById(id).awaitSuspending()).build()
 
     @WithTransaction

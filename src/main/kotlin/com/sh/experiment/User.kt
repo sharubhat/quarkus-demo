@@ -16,34 +16,33 @@ import jakarta.persistence.Table
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PastOrPresent
 
-
 @Entity
 @Table(name = "\"User\"")
-class User {
+open class User {
     @Id
     @SequenceGenerator(name = "userSequence", sequenceName = "User_SEQ", allocationSize = 1, initialValue = 4)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_SEQ")
-    var id: Int? = null
+    open var id: Int? = null
 
     @Column
     @NotNull
-    lateinit var email: String
+    open lateinit var email: String
 
     @Column
     @NotNull
-    lateinit var password: String
+    open lateinit var password: String
 
     @Column
-    lateinit var name: String
+    open lateinit var name: String
 
     @Column(name = "birth_date")
     @PastOrPresent
     @NotNull
-    lateinit var birthDate: LocalDate
+    open lateinit var birthDate: LocalDate
 
     @Column
     @Enumerated(EnumType.STRING)
-    var status: Status = Status.ACTIVE
+    open var status: Status = Status.ACTIVE
 
 }
 
