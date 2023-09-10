@@ -1,5 +1,18 @@
 # quarkus-demo
 
+This is a simple application to demo Quarkus Reactive using Kotlin co-routines. 
+
+There are 4 branches currently in this project. `trunk` is actively maintained, rest are examples only and may have bugs or incomplete code. 
+
+| Branch                                                                                                          |                                          Description                                           |
+|-----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------:|
+| [trunk](https://github.com/sharubhat/quarkus-demo/tree/trunk)                                                   |                 active branch - non-blocking db calls using repository pattern                 |
+| [non-reactive-hibernate](https://github.com/sharubhat/quarkus-demo/tree/non-reactive-hibernate)                 |                                    shows blocking db calls                                     |
+| [reactive-active-record-pattern](https://github.com/sharubhat/quarkus-demo/tree/reactive-active-record-pattern) |            non-blocking db calls using active record pattern with hibernate panache            |
+| [reactive-repository-pattern](https://github.com/sharubhat/quarkus-demo/tree/reactive-repository-pattern)       |             non-blocking db calls using repository pattern with hibernate panache              |
+
+
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .

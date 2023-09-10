@@ -47,7 +47,7 @@ class UserResource {
     @DELETE
     @Path("/{id}")
     suspend fun delete(@PathParam("id") id: Int): Response? =
-        when(deleteUser(id).awaitSuspending()) {
+        when (deleteUser(id).awaitSuspending()) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
             false -> Response.status(Response.Status.NOT_FOUND).build()
         }
@@ -56,20 +56,25 @@ class UserResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: Int): Response =
-        // TODO: Handle the case where entity is not found, currently responds empty with 200 OK
-            Response.ok(findUserById(id).awaitSuspending()).build()
+        findUserById(id).awaitSuspending()?.let {
+            Response.ok(it).build()
+        } ?: Response.status(Response.Status.NOT_FOUND).build()
 
     @GET
     @Path("/by-email/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByEmail(@QueryParam("email") email: String): Response =
-            Response.ok(findUserByEmail(email).awaitSuspending()).build()
+        findUserByEmail(email).awaitSuspending()?.let {
+            Response.ok(it).build()
+        } ?: Response.status(Response.Status.NOT_FOUND).build()
 
     @GET
     @Path("/by-status/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByStatus(@QueryParam("status") status: String): Response =
-            Response.ok(findUserByStatus(Status.valueOf(status)).awaitSuspending()).build()
+        findUserByStatus(Status.valueOf(status)).awaitSuspending()?.let {
+            Response.ok(it).build()
+        } ?: Response.status(Response.Status.NOT_FOUND).build()
 
     @WithTransaction
     fun saveUser(user: User): Uni<User> {
