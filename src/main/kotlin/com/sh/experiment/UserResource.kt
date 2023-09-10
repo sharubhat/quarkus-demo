@@ -35,21 +35,13 @@ class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(@Valid user: User): Response {
         log.info("save: In thread ${Thread.currentThread().name}")
-        user.let {
-            try {
-                saveUser(user).awaitSuspending()
-                return Response.created(URI("/user/${user.id}")).entity(user).build()
-            } catch (e: Exception) {
-                log.error("Failed.", e)
-                return Response.status(Response.Status.CONFLICT).build()
-            }
+        return try {
+            saveUser(user).awaitSuspending()
+            Response.created(URI("/user/${user.id}")).entity(user).build()
+        } catch (e: Exception) {
+            log.error("Failed.", e)
+            Response.status(Response.Status.CONFLICT).build()
         }
-    }
-
-    @WithTransaction
-    fun saveUser(user: User): Uni<User> {
-        log.info("saveUser: In thread ${Thread.currentThread().name}")
-        return userRepository.persist(user)
     }
 
     @DELETE
@@ -60,18 +52,12 @@ class UserResource {
             false -> Response.status(Response.Status.NOT_FOUND).build()
         }
 
-    @WithTransaction
-    fun deleteUser(id: Int) = userRepository.deleteById(id)
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: Int): Response =
         // TODO: Handle the case where entity is not found, currently responds empty with 200 OK
             Response.ok(findUserById(id).awaitSuspending()).build()
-
-    @WithTransaction
-    fun findUserById(id: Int) = userRepository.findById(id)
 
     @GET
     @Path("/by-email/")
@@ -84,6 +70,18 @@ class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByStatus(@QueryParam("status") status: String): Response =
             Response.ok(findUserByStatus(Status.valueOf(status)).awaitSuspending()).build()
+
+    @WithTransaction
+    fun saveUser(user: User): Uni<User> {
+        log.info("saveUser: In thread ${Thread.currentThread().name}")
+        return userRepository.persist(user)
+    }
+
+    @WithTransaction
+    fun deleteUser(id: Int) = userRepository.deleteById(id)
+
+    @WithTransaction
+    fun findUserById(id: Int) = userRepository.findById(id)
 
     @WithTransaction
     fun findUserByEmail(email: String) = userRepository.findByEmail(email)
