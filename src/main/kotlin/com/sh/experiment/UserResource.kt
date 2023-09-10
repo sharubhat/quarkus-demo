@@ -28,26 +28,24 @@ class UserResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "hello"
+    fun hello() = "howdy!"
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    suspend fun save(@Valid user: User): Response {
-        log.info("save: In thread ${Thread.currentThread().name}")
-        return try {
-            saveUser(user).awaitSuspending()
+    suspend fun save(@Valid user: User): Response =
+        try {
+            userRepository.saveUser(user).awaitSuspending()
             Response.created(URI("/user/${user.id}")).entity(user).build()
         } catch (e: Exception) {
             log.error("Failed.", e)
             Response.status(Response.Status.CONFLICT).build()
         }
-    }
 
     @DELETE
     @Path("/{id}")
     suspend fun delete(@PathParam("id") id: Int): Response? =
-        when (deleteUser(id).awaitSuspending()) {
+        when (userRepository.deleteUser(id).awaitSuspending()) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
             false -> Response.status(Response.Status.NOT_FOUND).build()
         }
@@ -56,7 +54,7 @@ class UserResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: Int): Response =
-        findUserById(id).awaitSuspending()?.let {
+        userRepository.findUserById(id)?.awaitSuspending()?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -64,7 +62,7 @@ class UserResource {
     @Path("/by-email/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByEmail(@QueryParam("email") email: String): Response =
-        findUserByEmail(email).awaitSuspending()?.let {
+        userRepository.findUserByEmail(email).awaitSuspending()?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -72,26 +70,5 @@ class UserResource {
     @Path("/by-status/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByStatus(@QueryParam("status") status: String): Response =
-        findUserByStatus(Status.valueOf(status)).awaitSuspending()?.let {
-            Response.ok(it).build()
-        } ?: Response.status(Response.Status.NOT_FOUND).build()
-
-    @WithTransaction
-    fun saveUser(user: User): Uni<User> {
-        log.info("saveUser: In thread ${Thread.currentThread().name}")
-        return userRepository.persist(user)
-    }
-
-    @WithTransaction
-    fun deleteUser(id: Int) = userRepository.deleteById(id)
-
-    @WithTransaction
-    fun findUserById(id: Int) = userRepository.findById(id)
-
-    @WithTransaction
-    fun findUserByEmail(email: String) = userRepository.findByEmail(email)
-
-    @WithTransaction
-    fun findUserByStatus(status: Status) = userRepository.findByStatus(status)
-
+        Response.ok(userRepository.findUsersByStatus(Status.valueOf(status)).awaitSuspending()).build()
 }
