@@ -1,9 +1,5 @@
 package com.sh.experiment
 
-import io.quarkus.hibernate.reactive.panache.kotlin.PanacheCompanion
-import io.quarkus.hibernate.reactive.panache.kotlin.PanacheEntityBase
-import jakarta.enterprise.context.ApplicationScoped
-import java.time.LocalDate
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -15,6 +11,7 @@ import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PastOrPresent
+import java.time.LocalDate
 
 @Entity
 @Table(name = "\"User\"")
@@ -43,7 +40,6 @@ open class User {
     @Column
     @Enumerated(EnumType.STRING)
     open var status: Status = Status.ACTIVE
-
 }
 
 enum class Status {

@@ -1,7 +1,5 @@
 package com.sh.experiment
 
-import io.quarkus.hibernate.reactive.panache.common.WithTransaction
-import io.smallrye.mutiny.Uni
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.inject.Inject
 import jakarta.validation.Valid
@@ -17,6 +15,9 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import org.jboss.logging.Logger
 import java.net.URI
+import java.sql.SQLException
+
+const val GREETINGS = "howdy"
 
 @Path("/user")
 class UserResource {
@@ -28,7 +29,7 @@ class UserResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "howdy!"
+    fun hello() = GREETINGS
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,7 +38,7 @@ class UserResource {
         try {
             userRepository.saveUser(user).awaitSuspending()
             Response.created(URI("/user/${user.id}")).entity(user).build()
-        } catch (e: Exception) {
+        } catch (e: SQLException) {
             log.error("Failed.", e)
             Response.status(Response.Status.CONFLICT).build()
         }

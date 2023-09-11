@@ -6,7 +6,7 @@ import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class UserRepository: PanacheRepositoryBase<User, Int> {
+class UserRepository : PanacheRepositoryBase<User, Int> {
     @WithTransaction
     fun findUserById(id: Int): Uni<User>? = findById(id)
 

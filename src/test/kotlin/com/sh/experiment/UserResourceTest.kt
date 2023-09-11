@@ -11,10 +11,9 @@ class UserResourceTest {
     @Test
     fun testHelloEndpoint() {
         given()
-          .`when`().get("/user")
-          .then()
-             .statusCode(200)
-             .body(`is`("howdy!"))
+            .`when`().get("/user")
+            .then()
+            .statusCode(200)
+            .body(`is`("howdy!"))
     }
-
 }
