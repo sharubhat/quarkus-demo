@@ -2,7 +2,6 @@ package com.sh.experiment
 
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.inject.Inject
-import jakarta.validation.Valid
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
@@ -13,11 +12,12 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import org.bson.types.ObjectId
 import org.jboss.logging.Logger
 import java.net.URI
 import java.sql.SQLException
 
-const val GREETINGS = "howdy"
+const val GREETINGS = "howdy!"
 
 @Path("/user")
 class UserResource {
@@ -34,7 +34,7 @@ class UserResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    suspend fun save(@Valid user: User): Response =
+    suspend fun save(user: User): Response =
         try {
             userRepository.saveUser(user).awaitSuspending()
             Response.created(URI("/user/${user.id}")).entity(user).build()
@@ -45,7 +45,7 @@ class UserResource {
 
     @DELETE
     @Path("/{id}")
-    suspend fun delete(@PathParam("id") id: Int): Response? =
+    suspend fun delete(@PathParam("id") id: ObjectId): Response? =
         when (userRepository.deleteUser(id).awaitSuspending()) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
             false -> Response.status(Response.Status.NOT_FOUND).build()
@@ -54,7 +54,7 @@ class UserResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    suspend fun findById(@PathParam("id") id: Int): Response =
+    suspend fun findById(@PathParam("id") id: ObjectId): Response =
         userRepository.findUserById(id)?.awaitSuspending()?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()

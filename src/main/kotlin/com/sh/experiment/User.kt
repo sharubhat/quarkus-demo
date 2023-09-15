@@ -1,45 +1,24 @@
 package com.sh.experiment
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.SequenceGenerator
-import jakarta.persistence.Table
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.PastOrPresent
+import org.bson.codecs.pojo.annotations.BsonId
+import org.bson.codecs.pojo.annotations.BsonProperty
+import org.bson.types.ObjectId
 import java.time.LocalDate
 
-@Entity
-@Table(name = "\"User\"")
-open class User {
-    @Id
-    @SequenceGenerator(name = "userSequence", sequenceName = "User_SEQ", allocationSize = 1, initialValue = 4)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_SEQ")
-    open var id: Int? = null
+class User {
+    @BsonId
+    var id: ObjectId? = null
 
-    @Column
-    @NotNull
-    open lateinit var email: String
+    lateinit var email: String
 
-    @Column
-    @NotNull
-    open lateinit var password: String
+    lateinit var password: String
 
-    @Column
-    open lateinit var name: String
+    lateinit var name: String
 
-    @Column(name = "birth_date")
-    @PastOrPresent
-    @NotNull
-    open lateinit var birthDate: LocalDate
+    @BsonProperty("birth_date")
+    lateinit var birthDate: LocalDate
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    open var status: Status = Status.ACTIVE
+    var status: Status = Status.ACTIVE
 }
 
 enum class Status {

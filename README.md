@@ -3,6 +3,7 @@
 This is a simple application to demo Quarkus Reactive using Kotlin co-routines. 
 
 There are 4 branches currently in this project. `trunk` is actively maintained, rest are examples only and may have bugs or incomplete code. 
+P.S: The branches other than trunk demo using postgres while trunk will be switching to mongodb as the experimentation continues.
 
 | Branch                                                                                                          |                                          Description                                           |
 |-----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------:|

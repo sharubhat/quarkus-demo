@@ -2,8 +2,8 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 plugins {
-    kotlin("jvm") version "1.8.21"
-    kotlin("plugin.allopen") version "1.8.21"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.allopen") version "1.9.10"
     id("io.quarkus")
     id("io.gitlab.arturbosch.detekt").version("1.23.1")
 }
@@ -34,10 +34,9 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-reactive")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
 
-    implementation("io.quarkus:quarkus-reactive-pg-client")
-    implementation("io.quarkus:quarkus-flyway")
-    implementation("io.quarkus:quarkus-hibernate-reactive-panache-kotlin")
-    implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("io.quarkus:quarkus-liquibase-mongodb")
+    implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jsonb")
 
     implementation(platform("io.arrow-kt:arrow-stack:1.2.0-RC"))
     // no versions on libraries
