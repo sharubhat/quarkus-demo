@@ -36,7 +36,6 @@ dependencies {
 
     implementation("io.quarkus:quarkus-liquibase-mongodb")
     implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
-    implementation("io.quarkus:quarkus-resteasy-reactive-jsonb")
 
     implementation(platform("io.arrow-kt:arrow-stack:1.2.0-RC"))
     // no versions on libraries
@@ -46,6 +45,13 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:kotlin-extensions")
     testImplementation("io.rest-assured:rest-assured")
+
+    // swagger
+    implementation("io.quarkus:quarkus-smallrye-openapi")
+    // health
+    implementation("io.quarkus:quarkus-smallrye-health")
+    // metrics
+    implementation("io.quarkus:quarkus-smallrye-metrics")
 }
 
 group = "com.sh"

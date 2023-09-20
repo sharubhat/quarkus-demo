@@ -13,12 +13,15 @@ import jakarta.ws.rs.QueryParam
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import org.bson.types.ObjectId
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition
+import org.eclipse.microprofile.openapi.annotations.info.Info
 import org.jboss.logging.Logger
 import java.net.URI
 import java.sql.SQLException
 
 const val GREETINGS = "howdy!"
 
+@OpenAPIDefinition(info = Info(title = "User API", version = "1.0"))
 @Path("/user")
 class UserResource {
 
