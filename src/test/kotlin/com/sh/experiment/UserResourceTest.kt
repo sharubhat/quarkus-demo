@@ -4,11 +4,16 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
+import jakarta.inject.Inject;
 
 @QuarkusTest
 class UserResourceTest {
+
+    @Inject
+    lateinit var resource: UserResource
 
     @Test
     fun testHelloEndpoint() {
@@ -32,5 +37,10 @@ class UserResourceTest {
             .post("/user")
             .then()
             .statusCode(201)
+    }
+
+    @Test
+    fun testHello() {
+        Assertions.assertEquals("howdy!", resource.hello())
     }
 }

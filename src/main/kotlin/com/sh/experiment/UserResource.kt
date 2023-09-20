@@ -27,9 +27,6 @@ class UserResource {
 
     private val log: Logger = Logger.getLogger(UserResource::class.java)
 
-    @Inject
-    lateinit var userRepository: UserRepository
-
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     fun hello() = GREETINGS
@@ -39,7 +36,7 @@ class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(user: User): Response =
         try {
-            userRepository.saveUser(user).awaitSuspending()
+            User.saveUser(user).awaitSuspending()
             Response.created(URI("/user/${user.id}")).entity(user).build()
         } catch (e: SQLException) {
             log.error("Failed.", e)
@@ -49,7 +46,7 @@ class UserResource {
     @DELETE
     @Path("/{id}")
     suspend fun delete(@PathParam("id") id: ObjectId): Response? =
-        when (userRepository.deleteUser(id).awaitSuspending()) {
+        when (User.deleteUser(id).awaitSuspending()) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
             false -> Response.status(Response.Status.NOT_FOUND).build()
         }
@@ -58,7 +55,7 @@ class UserResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: ObjectId): Response =
-        userRepository.findUserById(id)?.awaitSuspending()?.let {
+        User.findUserById(id).awaitSuspending()?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -66,7 +63,7 @@ class UserResource {
     @Path("/by-email/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByEmail(@QueryParam("email") email: String): Response =
-        userRepository.findUserByEmail(email).awaitSuspending()?.let {
+        User.findUserByEmail(email).awaitSuspending()?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -74,5 +71,5 @@ class UserResource {
     @Path("/by-status/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByStatus(@QueryParam("status") status: String): Response =
-        Response.ok(userRepository.findUsersByStatus(Status.valueOf(status)).awaitSuspending()).build()
+        Response.ok(User.findUsersByStatus(Status.valueOf(status)).awaitSuspending()).build()
 }
