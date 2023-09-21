@@ -1,6 +1,14 @@
 # quarkus-demo
 
-This is a simple application to demo Quarkus Reactive using Kotlin co-routines. 
+This is a simple application to demo Quarkus Reactive using Kotlin co-routines and Panache (non-blocking db) for MongoDB. 
+
+In addition to everything awesome that comes bundled with Quarkus, following have been integrated and tested.
+1. Health checks
+2. Logging
+3. Micrometer
+4. Swagger
+5. Liquibase for MongoDB
+6. Linters
 
 There are 4 branches currently in this project. `trunk` is actively maintained, rest are examples only and may have bugs or incomplete code. 
 P.S: The branches other than trunk demo using postgres while trunk will be switching to mongodb as the experimentation continues.
