@@ -37,7 +37,7 @@ dependencies {
     implementation("io.quarkus:quarkus-liquibase-mongodb")
     implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
 
-    implementation(platform("io.arrow-kt:arrow-stack:1.2.0-RC"))
+    implementation(platform("io.arrow-kt:arrow-stack:1.2.0"))
     // no versions on libraries
     implementation("io.arrow-kt:arrow-core")
     implementation("io.arrow-kt:arrow-fx-coroutines")

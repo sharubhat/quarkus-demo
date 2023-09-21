@@ -1,6 +1,6 @@
 package com.sh.coroutines
 
-import com.sh.experiment.UserResource
+import com.sh.experiment.resource.UserResource
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 

@@ -1,4 +1,4 @@
-package com.sh.experiment
+package com.sh.experiment.entity
 
 import io.quarkus.mongodb.panache.common.MongoEntity
 import io.quarkus.mongodb.panache.kotlin.reactive.ReactivePanacheMongoCompanion

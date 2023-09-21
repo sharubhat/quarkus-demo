@@ -1,6 +1,7 @@
-package com.sh.experiment
+package com.sh.experiment.resource
 
-import io.smallrye.mutiny.coroutines.awaitSuspending
+import com.sh.experiment.entity.User
+import com.sh.experiment.service.UserService
 import jakarta.inject.Inject
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
@@ -27,6 +28,9 @@ class UserResource {
 
     private val log: Logger = Logger.getLogger(UserResource::class.java)
 
+    @Inject
+    lateinit var userService: UserService
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     fun hello() = GREETINGS
@@ -36,7 +40,7 @@ class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(user: User): Response =
         try {
-            User.saveUser(user).awaitSuspending()
+            userService.saveUser(user)
             Response.created(URI("/user/${user.id}")).entity(user).build()
         } catch (e: SQLException) {
             log.error("Failed.", e)
@@ -46,7 +50,7 @@ class UserResource {
     @DELETE
     @Path("/{id}")
     suspend fun delete(@PathParam("id") id: ObjectId): Response? =
-        when (User.deleteUser(id).awaitSuspending()) {
+        when (userService.deleteUser(id)) {
             true -> Response.ok().status(Response.Status.NO_CONTENT).build()
             false -> Response.status(Response.Status.NOT_FOUND).build()
         }
@@ -55,7 +59,7 @@ class UserResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findById(@PathParam("id") id: ObjectId): Response =
-        User.findUserById(id).awaitSuspending()?.let {
+        userService.findUserById(id)?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -63,7 +67,7 @@ class UserResource {
     @Path("/by-email/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByEmail(@QueryParam("email") email: String): Response =
-        User.findUserByEmail(email).awaitSuspending()?.let {
+        userService.findUserByEmail(email)?.let {
             Response.ok(it).build()
         } ?: Response.status(Response.Status.NOT_FOUND).build()
 
@@ -71,5 +75,5 @@ class UserResource {
     @Path("/by-status/")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun findByStatus(@QueryParam("status") status: String): Response =
-        Response.ok(User.findUsersByStatus(Status.valueOf(status)).awaitSuspending()).build()
+        Response.ok(userService.findUsersByStatus(status)).build()
 }

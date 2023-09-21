@@ -1,5 +1,7 @@
 package com.sh.experiment
 
+import com.sh.experiment.entity.User
+import com.sh.experiment.resource.UserResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
