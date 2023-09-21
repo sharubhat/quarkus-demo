@@ -24,12 +24,11 @@ const val GREETINGS = "howdy!"
 
 @OpenAPIDefinition(info = Info(title = "User API", version = "1.0"))
 @Path("/user")
-class UserResource {
+class UserResource(
+    private val userService: UserService
+) {
 
     private val log: Logger = Logger.getLogger(UserResource::class.java)
-
-    @Inject
-    lateinit var userService: UserService
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
