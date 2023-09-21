@@ -7,7 +7,7 @@ P.S: The branches other than trunk demo using postgres while trunk will be switc
 
 | Branch                                                                                                          |                                          Description                                           |
 |-----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------:|
-| [trunk](https://github.com/sharubhat/quarkus-demo/tree/trunk)                                                   |                 active branch - non-blocking db calls using repository pattern                 |
+| [trunk](https://github.com/sharubhat/quarkus-demo/tree/trunk)                                                   |                 active branch - non-blocking db calls using active record pattern              |
 | [non-reactive-hibernate](https://github.com/sharubhat/quarkus-demo/tree/non-reactive-hibernate)                 |                                    shows blocking db calls                                     |
 | [reactive-active-record-pattern](https://github.com/sharubhat/quarkus-demo/tree/reactive-active-record-pattern) |            non-blocking db calls using active record pattern with hibernate panache            |
 | [reactive-repository-pattern](https://github.com/sharubhat/quarkus-demo/tree/reactive-repository-pattern)       |             non-blocking db calls using repository pattern with hibernate panache              |
