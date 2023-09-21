@@ -2,7 +2,6 @@ package com.sh.experiment.resource
 
 import com.sh.experiment.entity.User
 import com.sh.experiment.service.UserService
-import jakarta.inject.Inject
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET

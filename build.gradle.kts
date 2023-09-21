@@ -8,6 +8,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.23.1")
 }
 
+private val mockkVersion = "1.13.7"
+
 configurations.all {
     resolutionStrategy {
         force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
@@ -45,6 +47,8 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:kotlin-extensions")
     testImplementation("io.rest-assured:rest-assured")
+    testImplementation("io.mockk:mockk:${mockkVersion}")
+    testImplementation("io.quarkiverse.mockk:quarkus-junit5-mockk:2.1.0")
 
     // swagger
     implementation("io.quarkus:quarkus-smallrye-openapi")

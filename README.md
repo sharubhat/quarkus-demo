@@ -24,6 +24,9 @@ You can run your application in dev mode that enables live coding using:
 ```shell script
 ./gradlew quarkusDev
 ```
+By default Quarkus devservices is enabled which means not specifying `quarkus.mongodb.connection-string` in application.properties automatically spins up a docker container. This requires docker to be running locally.
+
+Liquibase is used for database change management. It is set to run a migration at startup. If you are running native image, ensure you either set the above property to point to a running mongodb cluster or run mongodb container locally.
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 

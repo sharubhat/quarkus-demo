@@ -1,7 +1,7 @@
 package com.sh.experiment.service
 
-import com.sh.experiment.entity.User
 import com.sh.experiment.entity.Status
+import com.sh.experiment.entity.User
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.enterprise.context.ApplicationScoped
 import org.bson.types.ObjectId
@@ -25,7 +25,7 @@ class UserService {
 
     // extension function to hide password in the response
     private fun User.hidePassword(): User {
-        val user = this.copy(password="*****")
+        val user = this.copy(password = "*****")
         user.id = this.id
         return user
     }

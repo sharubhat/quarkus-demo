@@ -18,8 +18,8 @@ data class User @BsonCreator constructor(
     @BsonProperty("name") var name: String,
     @get:BsonProperty("birth_date") @param:BsonProperty("birth_date") var birthDate: LocalDate,
     @BsonProperty("status") var status: Status = Status.ACTIVE
-): ReactivePanacheMongoEntity() {
-    companion object: ReactivePanacheMongoCompanion<User> {
+) : ReactivePanacheMongoEntity() {
+    companion object : ReactivePanacheMongoCompanion<User> {
         fun findUserById(id: ObjectId): Uni<User?> = findById(id)
 
         @Timed(name = "db_user_add", unit = MetricUnits.MILLISECONDS)

@@ -1,0 +1,20 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "3",
+        "author": "shabhat",
+        "labels": "createCollectionLabel",
+        "context": "createCollectionContext",
+        "comment": "create_collection_comment",
+        "changes": [
+          {
+            "createCollection": {
+              "collectionName": "users"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

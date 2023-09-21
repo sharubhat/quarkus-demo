@@ -1,15 +1,14 @@
-package com.sh.experiment
+package com.sh.experiment.resource
 
 import com.sh.experiment.entity.User
-import com.sh.experiment.resource.UserResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import jakarta.inject.Inject
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
-import jakarta.inject.Inject;
 
 @QuarkusTest
 class UserResourceTest {
