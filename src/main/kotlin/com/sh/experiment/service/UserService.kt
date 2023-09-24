@@ -1,5 +1,6 @@
 package com.sh.experiment.service
 
+import arrow.core.Either
 import com.sh.experiment.entity.Status
 import com.sh.experiment.entity.User
 import io.smallrye.mutiny.coroutines.awaitSuspending
@@ -8,8 +9,8 @@ import org.bson.types.ObjectId
 
 @ApplicationScoped
 class UserService {
-    suspend fun saveUser(user: User) =
-        User.saveUser(user).awaitSuspending().hidePassword()
+    suspend fun saveUser(user: User): Either<Throwable, User> =
+        Either.catch { User.saveUser(user).awaitSuspending().hidePassword() }.mapLeft { it }
 
     suspend fun deleteUser(id: ObjectId) =
         User.deleteUser(id).awaitSuspending()

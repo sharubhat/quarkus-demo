@@ -1,5 +1,6 @@
 package com.sh.experiment.resource
 
+import arrow.core.Either
 import com.sh.experiment.entity.User
 import com.sh.experiment.service.UserService
 import jakarta.ws.rs.Consumes
@@ -17,7 +18,6 @@ import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition
 import org.eclipse.microprofile.openapi.annotations.info.Info
 import org.jboss.logging.Logger
 import java.net.URI
-import java.sql.SQLException
 
 const val GREETINGS = "howdy!"
 
@@ -37,12 +37,12 @@ class UserResource(
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(user: User): Response =
-        try {
-            userService.saveUser(user)
-            Response.created(URI("/user/${user.id}")).entity(user).build()
-        } catch (e: SQLException) {
-            log.error("Failed.", e)
-            Response.status(Response.Status.CONFLICT).build()
+       when (val x = userService.saveUser(user)) {
+            is Either.Right -> Response.created(URI("/user/${user.id}")).entity(user).build()
+            is Either.Left -> {
+                log.error("Error saving the user : $User", x.value)
+                Response.status(Response.Status.CONFLICT).build()
+            }
         }
 
     @DELETE

@@ -4,7 +4,7 @@ Content-Type: application/json
 {"email":"sharath@gmail.com", "status":"ACTIVE", "password":"local", "birthDate": "2009-01-07", "name": "Sharath"}
 
 ###
-GET http://localhost:9090/user/650cd0bbf54cd16bdf72f62f
+GET http://localhost:9090/user/650d1c4196c4b17a8646aa1c
 Accept: application/json
 
 ###
