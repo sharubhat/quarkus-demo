@@ -1,6 +1,5 @@
 package com.sh.experiment.resource
 
-import arrow.core.Either
 import com.sh.experiment.entity.User
 import com.sh.experiment.service.UserService
 import jakarta.ws.rs.Consumes
@@ -37,13 +36,13 @@ class UserResource(
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(user: User): Response =
-       when (val x = userService.saveUser(user)) {
-            is Either.Right -> Response.created(URI("/user/${user.id}")).entity(user).build()
-            is Either.Left -> {
-                log.error("Error saving the user : $User", x.value)
+        userService.saveUser(user).fold(
+            ifRight = { Response.created(URI("/user/${user.id}")).entity(user).build() },
+            ifLeft = {
+                log.error("Error saving the user : $User", it)
                 Response.status(Response.Status.CONFLICT).build()
             }
-        }
+        )
 
     @DELETE
     @Path("/{id}")
