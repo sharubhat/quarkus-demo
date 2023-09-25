@@ -1,7 +1,7 @@
 package com.sh.experiment.resource
 
-import com.sh.experiment.entity.User
 import com.sh.experiment.service.UserService
+import com.sh.experiment.vo.User
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
@@ -37,9 +37,9 @@ class UserResource(
     @Consumes(MediaType.APPLICATION_JSON)
     suspend fun save(user: User): Response =
         userService.saveUser(user).fold(
-            ifRight = { Response.created(URI("/user/${user.id}")).entity(user).build() },
+            ifRight = { Response.created(URI("/user/${it.id}")).entity(User.getUserFromEntity(it)).build() },
             ifLeft = {
-                log.error("Error saving the user : $User", it)
+                log.error("Error saving the user : $user", it)
                 Response.status(Response.Status.CONFLICT).build()
             }
         )
