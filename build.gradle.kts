@@ -5,7 +5,14 @@ plugins {
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.allopen") version "1.9.10"
     id("io.quarkus")
-    id("io.gitlab.arturbosch.detekt").version("1.23.1")
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+}
+
+buildscript {
+    dependencies {
+        classpath(kotlin("gradle-plugin", version = "1.9.10"))
+    }
 }
 
 private val mockkVersion = "1.13.7"
@@ -43,6 +50,7 @@ dependencies {
     // no versions on libraries
     implementation("io.arrow-kt:arrow-core")
     implementation("io.arrow-kt:arrow-fx-coroutines")
+    implementation("io.arrow-kt:arrow-optics")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:kotlin-extensions")
