@@ -1,6 +1,10 @@
 package com.sh.experiment.service
 
 import arrow.core.Either
+import arrow.core.EitherNel
+import arrow.core.raise.either
+import arrow.core.raise.ensure
+import arrow.core.raise.zipOrAccumulate
 import com.sh.experiment.entity.Status
 import com.sh.experiment.entity.UserEntity
 import com.sh.experiment.vo.User
@@ -10,6 +14,15 @@ import org.bson.types.ObjectId
 
 @ApplicationScoped
 class UserService {
+    fun validateUser(user: User): EitherNel<String, User> = either {
+        zipOrAccumulate(
+            { ensure(user.name.isNotEmpty()) { "Name cannot be empty" } },
+            { ensure(user.password.isNotEmpty()) { "Password cannot be empty" } },
+            { ensure(user.email.isNotEmpty()) { "Email cannot be empty" } },
+            { ensure(user.status.isNotEmpty()) { "Email cannot be empty" } }
+        ) { _, _, _, _ -> user }
+    }
+
     suspend fun saveUser(user: User): Either<Throwable, UserEntity> =
         Either.catch { UserEntity.saveUser(User.toUserEntity(user)).awaitSuspending().hidePassword() }.mapLeft { it }
 

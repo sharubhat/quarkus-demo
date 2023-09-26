@@ -47,7 +47,7 @@ dependencies {
     implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
 
     // no versions on libraries for arrow
-    implementation(platform("io.arrow-kt:arrow-stack:1.2.0"))
+    implementation(platform("io.arrow-kt:arrow-stack:1.2.1"))
     implementation("io.arrow-kt:arrow-core")
     implementation("io.arrow-kt:arrow-fx-coroutines")
     implementation("io.arrow-kt:arrow-optics")

@@ -35,14 +35,20 @@ class UserResource(
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    suspend fun save(user: User): Response =
-        userService.saveUser(user).fold(
+    suspend fun save(user: User): Response {
+        userService.validateUser(user).isLeft {
+            val validationErrors = it.foldLeft("") { a, b -> "$a\n$b" }
+            log.error("Error saving the user : $user $validationErrors")
+            return Response.status(Response.Status.BAD_REQUEST).entity(validationErrors).build()
+        }
+        return userService.saveUser(user).fold(
             ifRight = { Response.created(URI("/user/${it.id}")).entity(User.getUserFromEntity(it)).build() },
             ifLeft = {
                 log.error("Error saving the user : $user", it)
                 Response.status(Response.Status.CONFLICT).build()
             }
         )
+    }
 
     @DELETE
     @Path("/{id}")

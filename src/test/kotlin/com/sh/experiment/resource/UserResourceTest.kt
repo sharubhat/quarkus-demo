@@ -24,7 +24,7 @@ class UserResourceTest {
     }
 
     @Test
-    fun testAddUser() {
+    fun `valid inputs create a user`() {
         val user =
             """
                 {
@@ -39,6 +39,24 @@ class UserResourceTest {
             .post("/user")
             .then()
             .statusCode(201)
+    }
+
+    @Test
+    fun `invalid inputs result in an error`() {
+        val user =
+            """
+                {
+                    "email": "",
+                    "password": "local",
+                    "name": "",
+                    "status": "ACTIVE"
+                }
+            """.trimIndent()
+        given()
+            .body(user).contentType(ContentType.JSON)
+            .post("/user")
+            .then()
+            .statusCode(400)
     }
 
     @Test
