@@ -68,9 +68,15 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
 ```
 
-You can then execute your native executable with: `./build/quarkus-demo-1.0.0-SNAPSHOT-runner`
+You can then execute your native executable with: `./build/quarkus-demo-1.0.0-SNAPSHOT-runner`. 
+If you are running locally, make sure to run a mongodb container. 
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/gradle-tooling.
+
+A log line similar to below will indicate that the application has started successfully.
+```shell script
+2023-09-29T15:58:59 INFO  [io.quarkus] (main) quarkus-demo 1.0.0-SNAPSHOT native (powered by Quarkus 3.0.4.Final) started in 0.112s. Listening on: http://0.0.0.0:9090
+```
 
 ## Related Guides
 
