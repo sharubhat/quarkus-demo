@@ -1,6 +1,6 @@
 # quarkus-demo
 
-This is a simple application to demo Quarkus Reactive using Kotlin co-routines and Panache (non-blocking db) for MongoDB. 
+This is a simple application to demo Quarkus Reactive using Kotlin co-routines and Panache (Panache is a Quarkus-specific library that simplifies the development of Hibernate-based persistence layer) for MongoDB. 
 
 In addition to everything awesome that comes bundled with Quarkus, following have been integrated and tested.
 1. Health checks
