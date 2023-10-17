@@ -1,6 +1,7 @@
 package com.sh.coroutines
 
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -9,6 +10,7 @@ import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@OptIn(DelicateCoroutinesApi::class)
 fun main() {
     val job1 = GlobalScope.launch(start = CoroutineStart.LAZY) {
         delay(200)

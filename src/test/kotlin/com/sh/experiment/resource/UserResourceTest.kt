@@ -48,8 +48,7 @@ class UserResourceTest {
                 {
                     "email": "",
                     "password": "local",
-                    "name": "",
-                    "status": "ACTIVE"
+                    "name": ""
                 }
             """.trimIndent()
         given()

@@ -18,9 +18,8 @@ class UserService {
         zipOrAccumulate(
             { ensure(user.name.isNotEmpty()) { "Name cannot be empty" } },
             { ensure(user.password.isNotEmpty()) { "Password cannot be empty" } },
-            { ensure(user.email.isNotEmpty()) { "Email cannot be empty" } },
-            { ensure(user.status.isNotEmpty()) { "Email cannot be empty" } }
-        ) { _, _, _, _ -> user }
+            { ensure(user.email.isNotEmpty()) { "Email cannot be empty" } }
+        ) { _, _, _ -> user }
     }
 
     suspend fun saveUser(user: User): Either<Throwable, UserEntity> =

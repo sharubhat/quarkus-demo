@@ -66,7 +66,7 @@ You can create a native executable using:
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 ```shell script
 ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-```
+```[README.md](README.md)
 
 You can then execute your native executable with: `./build/quarkus-demo-1.0.0-SNAPSHOT-runner`. 
 If you are running locally, make sure to run a mongodb container. 

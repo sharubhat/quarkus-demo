@@ -16,6 +16,7 @@ buildscript {
 }
 
 private val mockkVersion = "1.13.7"
+private val striktVersion="0.34.0"
 
 configurations.all {
     resolutionStrategy {
@@ -57,6 +58,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured")
     testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("io.quarkiverse.mockk:quarkus-junit5-mockk:2.1.0")
+    testImplementation("io.strikt:strikt-core:${striktVersion}")
 
     // swagger
     implementation("io.quarkus:quarkus-smallrye-openapi")
@@ -101,6 +103,7 @@ tasks.withType<Detekt>().configureEach {
     jvmTarget = "1.8"
     exclude("**/com/sh/arrow/**")
     exclude("**/com/sh/coroutines/**")
+    exclude("**/test/**")
     reports {
         html.required.set(true) // observe findings in your browser with structure and code snippets
         xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins

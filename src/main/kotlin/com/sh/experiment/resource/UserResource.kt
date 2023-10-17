@@ -2,6 +2,7 @@ package com.sh.experiment.resource
 
 import com.sh.experiment.service.UserService
 import com.sh.experiment.vo.User
+import io.smallrye.common.annotation.NonBlocking
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
@@ -30,6 +31,7 @@ class UserResource(
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
+    @NonBlocking
     fun hello() = GREETINGS
 
     @POST

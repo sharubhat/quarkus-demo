@@ -7,11 +7,9 @@ import jakarta.ws.rs.container.ContainerResponseContext
 import jakarta.ws.rs.container.ContainerResponseFilter
 import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.UriInfo
-import jakarta.ws.rs.ext.Provider
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@Provider
 class LoggingFilter : ContainerRequestFilter, ContainerResponseFilter {
 
     private val logger: Logger = LoggerFactory.getLogger(LoggingFilter::class.java)
