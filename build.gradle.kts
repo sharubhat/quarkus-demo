@@ -16,7 +16,8 @@ buildscript {
 }
 
 private val mockkVersion = "1.13.7"
-private val striktVersion="0.34.0"
+private val striktVersion = "0.34.0"
+private val coroutinesVersion = "1.7.1"
 
 configurations.all {
     resolutionStrategy {
@@ -59,6 +60,7 @@ dependencies {
     testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("io.quarkiverse.mockk:quarkus-junit5-mockk:2.1.0")
     testImplementation("io.strikt:strikt-core:${striktVersion}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${coroutinesVersion}")
 
     // swagger
     implementation("io.quarkus:quarkus-smallrye-openapi")
