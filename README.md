@@ -66,7 +66,7 @@ You can create a native executable using:
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 ```shell script
 ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-```[README.md](README.md)
+```
 
 You can then execute your native executable with: `./build/quarkus-demo-1.0.0-SNAPSHOT-runner`. 
 If you are running locally, make sure to run a mongodb container. 
@@ -78,6 +78,17 @@ A log line similar to below will indicate that the application has started succe
 2023-09-29T15:58:59 INFO  [io.quarkus] (main) quarkus-demo 1.0.0-SNAPSHOT native (powered by Quarkus 3.0.4.Final) started in 0.112s. Listening on: http://0.0.0.0:9090
 ```
 
+## Performance
+There is a copy of [hyperfoil](https://hyperfoil.io/) version 0.25.2 at root level of the project. There is also a benchmark script that can be run to generate load and also produce flame graph based on application profiling.
+P.S. Application needs to be built as uber jar every time a change is made, before running the benchmark script.
+The flame graph generated is stored in script folder as a html page.
+Ref: https://www.youtube.com/watch?v=Cw4nN5L-2vU
+```shell script
+./gradlew build -Dquarkus.package.type=uber-jar
+./benchmark.sh 
+```
+Following is the color coding for flame graph for quick reference.
+![Mixed-Mode Flame Graphs.png](..%2F..%2F..%2FLibrary%2FContainers%2Fcom.apple.Notes%2FData%2Ftmp%2FTemporaryItems%2FNSIRD_Notes_l1cmoz%2FHardLinkURLTemp%2F668C8226-3F84-4A5F-ABE7-2CA189007319%2F1697299284%2FMixed-Mode%20Flame%20Graphs.png)
 ## Related Guides
 
 - Hibernate ORM ([guide](https://quarkus.io/guides/hibernate-orm)): Define your persistent model with Hibernate ORM and Jakarta Persistence
